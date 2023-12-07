@@ -213,6 +213,16 @@ window.addEventListener('keyup', (event) => {
   }
 })
 
+let score = 0;
+let lastUpdateTime = Date.now();
+
+function updateScore() {
+    const now = Date.now();
+    score += ((now - lastUpdateTime) / 1000)*5; // Pontos baseados no tempo em segundos
+    lastUpdateTime = now;
+    document.getElementById('score').innerText = Math.floor(score).toString();
+}
+
 let isPaused = false;
 
 document.getElementById('pauseButton').addEventListener('click', function() {
@@ -259,7 +269,7 @@ function animate() {
         cancelAnimationFrame(animationId)
       }
     })
-
+  updateScore();
 
   if (frames % spawnRate === 0) {
     if (spawnRate > 20) spawnRate -= 20
