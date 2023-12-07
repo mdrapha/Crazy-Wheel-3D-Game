@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crazy Wheels</title>
+    <link rel="stylesheet" href="/src/css/style.css">
+    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.150.1/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.150.1/examples/jsm/"
+        }
+      }
+    </script>
+</head>
+<body>
+     <!-- Pop-up Game Over -->
+     <div id="gameOverPopup" style="display: none;">
+        <div class="gameOverContent">
+            <h2>Game Over</h2>
+            <button id="restartGame">Reiniciar Jogo</button>
+        </div>
+    </div>
+    <!-- Pop-up Game Over -->
+
+    
+    <div id="pauseMenu" style="display: none;">
+      <button id="pauseButton">Pausar</button>
+      <button id="resumeButton" style="display: none;">Retornar</button>
+    </div>
+
+        <!-- Dentro do seu <body> em index.html -->
+    <div id="scoreBoard">
+      Pontos: <span id="score">0</span>
+    </div>
+
+    <script type="module" src="/src/js/main.js"></script>
+</body>
+</html>

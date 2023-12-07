@@ -1,0 +1,39 @@
+body {
+    margin: 0;
+    background: #0c4a6e;
+}
+#gameOverPopup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gameOverContent {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#gameOverPopup h2 {
+    margin: 0 0 20px 0;
+}
+
+#restartGame {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#pauseMenu {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 100;
+}
