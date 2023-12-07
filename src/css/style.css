@@ -2,10 +2,12 @@ body {
     margin: 0;
     background: #0c4a6e;
 }
+
 #gameOverPopup {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: center; /* Isso vai centralizar o conteúdo do pop-up verticalmente */
+    align-items: center; /* Isso vai centralizar o conteúdo do pop-up horizontalmente */
     gap: 108px;
     width: 592px;
     padding: 79px 73px 85px 72px;
@@ -19,13 +21,20 @@ body {
     z-index: 1000;
 }
 
+.gameOverContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
 .gameOverContent h2 {
     color: #E77C00;
     font-size: 73px;
     font-weight: 700;
     line-height: normal;
-    text-align: center; /* Assegura o alinhamento do texto no centro */
-    margin: 0; /* Remove a margem padrão do elemento h2 */
+    text-align: center;
+    margin: 0;
 }
 
 #restartGame {
@@ -34,14 +43,15 @@ body {
     border-radius: 40px;
     background: #565050;
     font-size: 73px;
-    color: #FFFFFF; /* Cor do texto do botão, caso necessário */
+    color: #FFFFFF;
     display: flex;
-    justify-content: center; /* Alinha horizontalmente */
-    align-items: center; /* Alinha verticalmente */
+    justify-content: center; /* Alinha o texto horizontalmente */
+    align-items: center; /* Alinha o texto verticalmente */
     flex-shrink: 0;
-    cursor: pointer; /* Muda o cursor para indicar que é clicável */
-    border: none; /* Remover borda padrão de botões */
+    cursor: pointer;
+    border: none;
 }
+
 
   
 
@@ -63,3 +73,33 @@ body {
     z-index: 100;
 }
 
+#startMenu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Fundo escuro com transparência */
+    z-index: 1000;
+  }
+  
+  .menuContent h1 {
+    margin-bottom: 20px;
+    color: white;
+    font-size: 48px;
+  }
+  
+  #startGame {
+    padding: 10px 20px;
+    font-size: 24px;
+    cursor: pointer;
+    background: #565050;
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+  

@@ -299,6 +299,58 @@ function animate() {
   frames++
 }
 
+// Inclua esta variável para evitar que o loop de animação seja iniciado mais de uma vez
+let animationId = null;
+
+function startGame() {
+  // Inicialize ou reinicie a pontuação
+  score = 0;
+  lastUpdateTime = Date.now();
+  
+  // Defina ou redefina o estado inicial do jogo, como a posição do jogador, inimigos, etc.
+  // Se você tiver uma função separada para reiniciar o jogo, chame-a aqui
+  resetGame();
+
+  // Esconda o menu de início, se ele ainda estiver visível
+  const startMenu = document.getElementById('startMenu');
+  startMenu.style.display = 'none';
+  
+  // Inicie o loop de animação, se ainda não estiver em execução
+  if (!animationId) {
+    animate();
+  }
+}
+
+function resetGame() {
+  // Configure ou redefina a posição e estado inicial do jogador e dos inimigos
+  // Se o seu jogo já possui essa lógica em outro lugar, você pode chamar essa função aqui
+  // Exemplo:
+  // cube.position.set(0, 0, 0);
+  // cube.velocity.y = 0;
+  // Remova todos os inimigos existentes
+  enemies.forEach((enemy) => {
+    scene.remove(enemy);
+  });
+  enemies.length = 0;
+
+  // Reinicie qualquer outra variável de estado do jogo
+  frames = 0;
+  spawnRate = 200;
+
+  // Atualize a pontuação na tela
+  updateScore();
+}
+
+
+
+// Agora você precisa chamar startGame() quando o DOM estiver carregado e o botão de início for clicado
+document.addEventListener('DOMContentLoaded', (event) => {
+  const startButton = document.getElementById('startGame');
+  
+  startButton.addEventListener('click', function() {
+    startGame();
+  });
+});
 
 
 function showGameOverScreen() {
@@ -312,4 +364,4 @@ document.getElementById('restartGame').addEventListener('click', function() {
 });
 
 
-animate()
+//animate()
