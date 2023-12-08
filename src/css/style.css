@@ -72,34 +72,69 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     z-index: 100;
 }
-
 #startMenu {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; /* Centraliza os itens no eixo da coluna (vertical) */
+    align-items: center; /* Centraliza os itens no eixo da linha (horizontal) */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8); /* Fundo escuro com transparência */
+    background: rgba(0, 0, 0, 0.1); /* Fundo claro com transparência */
     z-index: 1000;
   }
   
+  .menuContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
   .menuContent h1 {
-    margin-bottom: 20px;
     color: white;
     font-size: 48px;
+    margin: 0; /* Remove a margem padrão */
   }
   
-  #startGame {
-    padding: 10px 20px;
+  #gameLogo {
+    max-width: 900px; /* Ajuste o tamanho do logo conforme necessário */
+    max-height: 450px; /* Ajuste a altura máxima para manter a proporção */
+    width: auto; /* Isso vai manter a proporção da imagem */
+    height: auto; /* Isso vai manter a proporção da imagem */
+    margin-bottom: 20px; /* Espaço entre o logo e o botão */
+  }
+
+  .menuContent button {
+    width: 200px;
+    padding: 15px 30px;
     font-size: 24px;
     cursor: pointer;
-    background: #565050;
+    background: #d6610e;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 15px;
+    margin-top: 10px; /* Espaço entre cada botão */
   }
   
+  
+  #startGame {
+    padding: 15px 20px;
+    font-size: 24px;
+    cursor: pointer;
+    background: #d6610e;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    align-self: center; /* Garante que o botão estará centralizado dentro de sua div */
+  }
+
+  #settingsMenu{
+    background:#565050;
+  }
+
+  #aboutMenu{
+    background:#565050;
+  }
