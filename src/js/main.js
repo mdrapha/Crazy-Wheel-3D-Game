@@ -8,20 +8,20 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 // Configurações para o dia
-const daySettings = {
-  lightIntensity: 1,
-  ambientColor: 0xffffff, // Branco
-};
+// const daySettings = {
+//   lightIntensity: 1,
+//   ambientColor: 0xffffff, // Branco
+// };
 
-// Configurações para a noite
-const nightSettings = {
-  lightIntensity: 0.3,
-  ambientColor: 0x000044, // Azul escuro
-};
+// // Configurações para a noite
+// const nightSettings = {
+//   lightIntensity: 0.3,
+//   ambientColor: 0x000044, // Azul escuro
+// };
 
-// Estado atual e temporizador
-let isDay = true;
-let dayNightTimer = 0;
+// // Estado atual e temporizador
+// let isDay = true;
+// let dayNightTimer = 0;
 
 
 // Cria um loader de texturas
@@ -281,24 +281,24 @@ let spawnRate = 200
 
 
 function animate() {
-  const deltaTime = Date.now() - lastUpdateTime;
+  // const deltaTime = Date.now() - lastUpdateTime;
 
   // Atualiza o temporizador de dia e noite
-  dayNightTimer += deltaTime;
-  if (dayNightTimer >= 30000) { // 30 segundos
-    isDay = !isDay;
-    dayNightTimer = 0;
-  }
+  // dayNightTimer += deltaTime;
+  // if (dayNightTimer >= 30000) { // 30 segundos
+  //   isDay = !isDay;
+  //   dayNightTimer = 0;
+  // }
 
-  // Interpolação das propriedades de iluminação
-  const lerpFactor = deltaTime / 30000;
-  const targetSettings = isDay ? daySettings : nightSettings;
-  light.intensity = THREE.MathUtils.lerp(light.intensity, targetSettings.lightIntensity, lerpFactor);
-  scene.background = new THREE.Color().lerpColors(
-    new THREE.Color(scene.background),
-    new THREE.Color(targetSettings.ambientColor),
-    lerpFactor
-  );
+  // // Interpolação das propriedades de iluminação
+  // const lerpFactor = deltaTime / 30000;
+  // const targetSettings = isDay ? daySettings : nightSettings;
+  // light.intensity = THREE.MathUtils.lerp(light.intensity, targetSettings.lightIntensity, lerpFactor);
+  // scene.background = new THREE.Color().lerpColors(
+  //   new THREE.Color(scene.background),
+  //   new THREE.Color(targetSettings.ambientColor),
+  //   lerpFactor
+  // );
 
   const animationId = requestAnimationFrame(animate)
   renderer.render(scene, camera)
@@ -353,8 +353,8 @@ function animate() {
   }
 
   frames++
-  lastUpdateTime = Date.now();
-  requestAnimationFrame(animate);
+  // lastUpdateTime = Date.now();
+  // requestAnimationFrame(animate);
 }
 
 // Inclua esta variável para evitar que o loop de animação seja iniciado mais de uma vez
