@@ -290,7 +290,7 @@ document.getElementById('resumeButton').addEventListener('click', function () {
 const enemies = []
 
 let frames = 0
-let spawnRate = 20
+let spawnRate = 40
 
 
 function animate() {
@@ -303,7 +303,7 @@ function animate() {
   cube.velocity.x = 0
   cube.velocity.z = 0
 
-  cube.rotation.x -= 0.05
+  cube.rotation.x -= 0.1
 
   if (keys.a.pressed && cube.position.x >= -5.0) cube.velocity.x = -0.05
   else if (keys.d.pressed && cube.position.x <= 5.0) cube.velocity.x = 0.05
