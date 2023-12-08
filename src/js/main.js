@@ -8,7 +8,7 @@ import { iluminacao } from './luz.js'
 
 // Definição da classe GLTFBox
 
-
+let lives = 3;
 
 document.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('scoreBoard').style.display = 'none';
@@ -283,7 +283,17 @@ function animate() {
           box1: cube,
           box2: enemy
         })
+        && !enemy.hasCollided
       ) {
+        
+        //printe na tela qtd de vidas
+        console.log(lives)
+        lives--;
+
+        enemy.hasCollided = true
+      }
+
+      if(lives == 0) {
         showGameOverScreen()
         cancelAnimationFrame(animationId)
       }
@@ -312,6 +322,7 @@ function animate() {
       isTransparent: false // Garante que os inimigos não sejam transparentes
     })
     enemy.castShadow = true
+    enemy.hasCollided = false
     scene.add(enemy)
     enemies.push(enemy)
   }
