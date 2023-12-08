@@ -143,7 +143,7 @@ class GLTFMain extends Box {
     loader.load(url, (gltf) => {
       this.gltfModel = gltf.scene;
       this.gltfModel.scale.set(scale, scale, scale);
-      this.gltfModel.position.set(0, -1.4, 0);
+      this.gltfModel.position.set(0, -1.3, 0);
       this.add(this.gltfModel);
     });
   }
@@ -186,7 +186,7 @@ const cube = new GLTFMain({
   url: '/models/tuner_wheel/scene.gltf',
   scale: 0.5,
   width: 0.8,
-  height: 2.9,
+  height: 2.38,
   depth: 2.55,
   position: { x: 0, y: 0, z: 0 },
   velocity: { x: 0, y: 0.06, z: 0 },
