@@ -1,10 +1,13 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
-//import { GLTFModel } from '../js/GLTFModel.js'; 
 import {chao} from './chao.js'
-// import {Box} from './classeBox.js'
-// import {cube} from './cube.js'
 import { iluminacao } from './luz.js'
+// import { updateScore } from './updateScore.js';
+
+//imports nao funcionando ainda
+//import { GLTFModel } from '../js/GLTFModel.js'; 
+// import {cube} from './cube.js'
+// import {Box} from './classeBox.js'
 
 document.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('scoreBoard').style.display = 'none';
@@ -25,19 +28,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 // // Estado atual e temporizador
 // let isDay = true;
 // let dayNightTimer = 0;
-
-
-// Cria um loader de texturas
-// const textureLoader = new THREE.TextureLoader();
-// // Carrega a textura do caminho especificado
-// const roadTexture = textureLoader.load('/imgs/road.jpg');
-// roadTexture.wrapS = THREE.ClampToEdgeWrapping; // Isso evitará a repetição no eixo Y
-// roadTexture.wrapT = THREE.RepeatWrapping;
-// const chaoWidth = 10;
-// const chaoDepth = 50;
-// const textureSize = 512; // Dimensão da textura
-
-// roadTexture.repeat.set(1, 10); // Ajuste estes números conforme necessário
 
 const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(
