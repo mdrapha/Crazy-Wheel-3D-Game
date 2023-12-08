@@ -6,7 +6,10 @@ import {chao} from './chao.js'
 // import {cube} from './cube.js'
 
 import { teste } from './teste.js'
+<<<<<<< HEAD
 import { iluminacao } from './luz.js'
+=======
+>>>>>>> e9d41b156b6c3d7005e03f5c87bcec2f0efc4afb
 
 document.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('scoreBoard').style.display = 'none';
