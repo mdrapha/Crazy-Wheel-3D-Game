@@ -1,37 +1,18 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
-import {chao} from './chao.js'
-import { iluminacao } from './luz.js'
-// import { updateScore } from './updateScore.js';
-
-//imports nao funcionando ainda
-//import { GLTFModel } from '../js/GLTFModel.js'; 
-// import {cube} from './cube.js'
-// import {Box} from './classeBox.js'
 import { GLTFLoader } from 'three/loaders/GLTFLoader.js';
+import {chao} from './chao.js'
+// import {Box} from './classeBox.js'
+// import {cube} from './cube.js'
+import { iluminacao } from './luz.js'
+
+// Definição da classe GLTFBox
 
 
-let life = 3;
 
 document.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('scoreBoard').style.display = 'none';
 });
-
-// Configurações para o dia
-// const daySettings = {
-//   lightIntensity: 1,
-//   ambientColor: 0xffffff, // Branco
-// };
-
-// // Configurações para a noite
-// const nightSettings = {
-//   lightIntensity: 0.3,
-//   ambientColor: 0x000044, // Azul escuro
-// };
-
-// // Estado atual e temporizador
-// let isDay = true;
-// let dayNightTimer = 0;
 
 const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(
@@ -52,7 +33,7 @@ document.body.appendChild(renderer.domElement)
 
 const controls = new OrbitControls(camera, renderer.domElement)
 
-class Box extends THREE.Mesh {
+export class Box extends THREE.Mesh {
   constructor({
     width,
     height,
@@ -68,132 +49,152 @@ class Box extends THREE.Mesh {
       y: 0,
       z: 0
     },
-    zAcceleration = false
+    zAcceleration = false,
+    isTransparent = false // Parâmetro para transparência
   }) {
-    super(
-      new THREE.BoxGeometry(width, height, depth),
-      new THREE.MeshStandardMaterial({ color })
-    )
+    const materialOptions = {
+      color,
+      transparent: isTransparent,
+      opacity: isTransparent ? 0 : 1
+    };
 
-    this.width = width
-    this.height = height
-    this.depth = depth
+    super(new THREE.BoxGeometry(width, height, depth), new THREE.MeshStandardMaterial(materialOptions));
 
-    this.position.set(position.x, position.y, position.z)
+    this.width = width;
+    this.height = height;
+    this.depth = depth;
 
-    this.right = this.position.x + this.width / 2
-    this.left = this.position.x - this.width / 2
+    this.position.set(position.x, position.y, position.z);
 
-    this.bottom = this.position.y - this.height / 2
-    this.top = this.position.y + this.height / 2
+    this.velocity = velocity;
+    this.gravity = -0.002;
+    this.zAcceleration = zAcceleration;
 
-    this.front = this.position.z + this.depth / 2
-    this.back = this.position.z - this.depth / 2
-
-    this.velocity = velocity
-    this.gravity = -0.002
-
-    this.zAcceleration = zAcceleration
+    this.updateSides();
   }
 
   updateSides() {
-    this.right = this.position.x + this.width / 2
-    this.left = this.position.x - this.width / 2
-
-    this.bottom = this.position.y - this.height / 2
-    this.top = this.position.y + this.height / 2
-
-    this.front = this.position.z + this.depth / 2
-    this.back = this.position.z - this.depth / 2
+    this.right = this.position.x + this.width / 2;
+    this.left = this.position.x - this.width / 2;
+    this.bottom = this.position.y - this.height / 2;
+    this.top = this.position.y + this.height / 2;
+    this.front = this.position.z + this.depth / 2;
+    this.back = this.position.z - this.depth / 2;
   }
 
   update(chao) {
-    this.updateSides()
+    this.updateSides();
 
-    if (this.zAcceleration) this.velocity.z += 0.0003
+    if (this.zAcceleration) this.velocity.z += 0.0003;
 
-    this.position.x += this.velocity.x
-    this.position.z += this.velocity.z
+    this.position.x += this.velocity.x;
+    this.position.y += this.velocity.y;
+    this.position.z += this.velocity.z;
 
-    this.applyGravity(chao)
+    this.applyGravity(chao);
   }
 
   applyGravity(chao) {
-    this.velocity.y += this.gravity
+    this.velocity.y += this.gravity;
 
-    // this is where we hit the chao
-    if (
-      boxCollision({
-        box1: this,
-        box2: chao
-      })
-    ) {
-      const friction = 0.5
-      this.velocity.y *= friction
-      this.velocity.y = -this.velocity.y
-    } else this.position.y += this.velocity.y
+    if (boxCollision({ box1: this, box2: chao })) {
+      const friction = 0.5;
+      this.velocity.y *= -friction;
+    } else {
+      this.position.y += this.velocity.y;
+    }
   }
 }
 
 function boxCollision({ box1, box2 }) {
-  const xCollision = box1.right >= box2.left && box1.left <= box2.right
-  const yCollision =
-    box1.bottom + box1.velocity.y <= box2.top && box1.top >= box2.bottom
-  const zCollision = box1.front >= box2.back && box1.back <= box2.front
+  const xCollision = box1.right >= box2.left && box1.left <= box2.right;
+  const yCollision = box1.bottom <= box2.top && box1.top >= box2.bottom;
+  const zCollision = box1.front >= box2.back && box1.back <= box2.front;
 
-  return xCollision && yCollision && zCollision
+  return xCollision && yCollision && zCollision;
 }
 
-// const cube = new GLTFModel({
-//     url: 'models/soccer_ball/scene.gltf',
-//     scale: 0.5,
-//     position: { x: 0, y: 0, z: 0 },
-//     velocity: { x: 0, y: -0.01, z: 0 }
-//   });
 
-// const cube = new Box({
-//     width: 1,
-//     height: 1,
-//     depth: 1,
-//     velocity: {
-//       x: 0,
-//       y: -0.01,
-//       z: 0
-//     }
-//   })
+class GLTFMain extends Box {
+  constructor({
+    url,
+    scale = 1,
+    width,
+    height,
+    depth,
+    velocity = { x: 0, y: 0.08, z: 0 },
+    position = { x: 0, y: 1, z: 0 },
+    zAcceleration = false
+  }) {
+    super({ 
+      width, 
+      height, 
+      depth, 
+      color: '#FFFFFF', // Cor branca, mas será transparente
+      velocity, 
+      position, 
+      zAcceleration, 
+      isTransparent: true 
+    });
 
-//Instanciando um cubo com o modelo 3D GLTF
-const loader = new GLTFLoader();
-let cube;
-loader.load('/models/retro_wheel/scene.gltf', function (gltf) {
-    cube = gltf.scene;
-    cube.scale.set(0.5, 0.5, 0.5);
-    cube.position.set(0, 0, 0);
-    cube.velocity = {
-      x: 0,
-      y: -0.01,
-      z: 0
-    }
-    cube.castShadow = true
-    scene.add(cube);
-    console.log(cube);
+    // Carregar o modelo GLTF
+    const loader = new GLTFLoader();
+    loader.load(url, (gltf) => {
+      this.gltfModel = gltf.scene;
+      this.gltfModel.scale.set(scale, scale, scale);
+      this.gltfModel.position.set(0, -1.4, 0);
+      this.add(this.gltfModel);
+    });
+  }
+}
+
+class GLTFEnemy extends Box {
+  constructor({
+    url, // URL do modelo 3D do inimigo
+    scale = 1,
+    width,
+    height,
+    depth,
+    velocity = { x: 0, y: 0, z: 0 },
+    position = { x: 0, y: 0, z: 0 },
+    zAcceleration = false
+  }) {
+    super({ 
+      width, 
+      height, 
+      depth, 
+      color: '#FFFFFF', 
+      velocity, 
+      position, 
+      zAcceleration, 
+      isTransparent: true 
+    });
+
+    const loader = new GLTFLoader();
+    loader.load(url, (gltf) => {
+      this.gltfModel = gltf.scene;
+      this.gltfModel.scale.set(scale, scale, scale);
+      this.gltfModel.position.set(0, 0.1, 0); // Ajuste a posição conforme necessário
+      this.add(this.gltfModel);
+    });
+  }
+}
+
+
+const cube = new GLTFMain({
+  url: '/models/tuner_wheel/scene.gltf',
+  scale: 0.5,
+  width: 0.8,
+  height: 2.9,
+  depth: 2.55,
+  position: { x: 0, y: 0, z: 0 },
+  velocity: { x: 0, y: 0.06, z: 0 },
+  isTransparent: true // Torna o cubo transparente
 });
 
-// const chao = new Box({
-//   width: 10,
-//   height: 0.5,
-//   depth: 50,
-//   color: '#0369a1',
-//   position: {
-//     x: 0,
-//     y: -2,
-//     z: 0
-//   }
-// })
+cube.castShadow = true
+scene.add(cube)
 
-// chao.material.map = roadTexture;
-// chao.material.needsUpdate = true;
-// chao.receiveShadow = true
 scene.add(chao)
 
 scene.add(iluminacao)
@@ -202,7 +203,7 @@ scene.add(new THREE.AmbientLight(0xffffff, 0.5))
 
 camera.position.z = 5
 console.log(chao.top)
-// console.log(cube.bottom)
+console.log(chao.bottom)
 
 const keys = {
   a: {
@@ -234,9 +235,9 @@ window.addEventListener('keydown', (event) => {
       keys.w.pressed = true
       break
     case 'Space':
-      if (cube.position.y <= -0.3){ 
-        cube.velocity.y = 0.08
-      }
+      
+        cube.velocity.y = 0.06
+        console.log(cube.position.y)
       
       break
   }
@@ -288,28 +289,11 @@ document.getElementById('resumeButton').addEventListener('click', function() {
 const enemies = []
 
 let frames = 0
-let spawnRate = 200
+let spawnRate = 20
 
 
 function animate() {
-  // const deltaTime = Date.now() - lastUpdateTime;
-
-  // Atualiza o temporizador de dia e noite
-  // dayNightTimer += deltaTime;
-  // if (dayNightTimer >= 30000) { // 30 segundos
-  //   isDay = !isDay;
-  //   dayNightTimer = 0;
-  // }
-
-  // // Interpolação das propriedades de iluminação
-  // const lerpFactor = deltaTime / 30000;
-  // const targetSettings = isDay ? daySettings : nightSettings;
-  // light.intensity = THREE.MathUtils.lerp(light.intensity, targetSettings.lightIntensity, lerpFactor);
-  // scene.backchao = new THREE.Color().lerpColors(
-  //   new THREE.Color(scene.backchao),
-  //   new THREE.Color(targetSettings.ambientColor),
-  //   lerpFactor
-  // );
+ 
 
   const animationId = requestAnimationFrame(animate)
   renderer.render(scene, camera)
@@ -326,22 +310,24 @@ function animate() {
   cube.update(chao)
     enemies.forEach((enemy) => {
       enemy.update(chao)
-      // if (
-      //   boxCollision({
-      //     box1: cube,
-      //     box2: enemy
-      //   })
-      // ) {
-      //   showGameOverScreen()
-      //   cancelAnimationFrame(animationId)
-      // }
+      if (
+        boxCollision({
+          box1: cube,
+          box2: enemy
+        })
+      ) {
+        showGameOverScreen()
+        cancelAnimationFrame(animationId)
+      }
     })
   updateScore();
 
   if (frames % spawnRate === 0) {
-    if (spawnRate > 20) spawnRate -= 20
-
-    const enemy = new Box({
+    if (spawnRate > 2) spawnRate -= 2;
+  
+    const enemy = new GLTFEnemy({
+      url: '/models/traffic_cone/scene.gltf', // Substitua pelo caminho do seu modelo 3D
+      scale: 0.5, // Ajuste conforme necessário
       width: 1,
       height: 1,
       depth: 1,
@@ -353,19 +339,16 @@ function animate() {
       velocity: {
         x: 0,
         y: 0,
-        z: 0.005
-      },
-      color: 'red',
-      zAcceleration: true
-    })
-    enemy.castShadow = true
-    scene.add(enemy)
-    enemies.push(enemy)
+        z: 0.03
+      }
+    });
+    enemy.castShadow = true;
+    scene.add(enemy);
+    enemies.push(enemy);
   }
 
   frames++
-  // lastUpdateTime = Date.now();
-  // requestAnimationFrame(animate);
+ 
 }
 
 // Inclua esta variável para evitar que o loop de animação seja iniciado mais de uma vez
