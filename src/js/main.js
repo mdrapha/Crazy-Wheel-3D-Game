@@ -82,7 +82,7 @@ export class Box extends THREE.Mesh {
     this.back = this.position.z - this.depth / 2;
   }
 
-  update(ground) {
+  update(chao) {
     this.updateSides();
 
     if (this.zAcceleration) this.velocity.z += 0.0003;
@@ -91,13 +91,13 @@ export class Box extends THREE.Mesh {
     this.position.y += this.velocity.y;
     this.position.z += this.velocity.z;
 
-    this.applyGravity(ground);
+    this.applyGravity(chao);
   }
 
-  applyGravity(ground) {
+  applyGravity(chao) {
     this.velocity.y += this.gravity;
 
-    if (boxCollision({ box1: this, box2: ground })) {
+    if (boxCollision({ box1: this, box2: chao })) {
       const friction = 0.5;
       this.velocity.y *= -friction;
     } else {
@@ -122,8 +122,8 @@ class GLTFBox extends Box {
     width,
     height,
     depth,
-    velocity = { x: 0, y: 0, z: 0 },
-    position = { x: 0, y: 0, z: 0 },
+    velocity = { x: 0, y: 0.08, z: 0 },
+    position = { x: 0, y: 1, z: 0 },
     zAcceleration = false
   }) {
     super({ 
@@ -134,7 +134,7 @@ class GLTFBox extends Box {
       velocity, 
       position, 
       zAcceleration, 
-      isTransparent: false // Certifique-se de que isto está definido como verdadeiro
+      isTransparent: true 
     });
 
     // Carregar o modelo GLTF
@@ -142,7 +142,7 @@ class GLTFBox extends Box {
     loader.load(url, (gltf) => {
       this.gltfModel = gltf.scene;
       this.gltfModel.scale.set(scale, scale, scale);
-      this.gltfModel.position.set(this.position.x, this.position.y, this.position.z);
+      this.gltfModel.position.set(0, -1.4, 0);
       this.add(this.gltfModel);
     });
   }
@@ -153,16 +153,15 @@ const cube = new GLTFBox({
   url: '/models/tuner_wheel/scene.gltf',
   scale: 0.5,
   width: 1,
-  height: 1,
-  depth: 1,
-  position: { x: 0, y: -0.55, z: 0 },
-  velocity: { x: 0, y: -0.06, z: 0 },
+  height: 2.9,
+  depth: 2.55,
+  position: { x: 0, y: 0, z: 0 },
+  velocity: { x: 0, y: 0.06, z: 0 },
   isTransparent: true // Torna o cubo transparente
 });
 
 cube.castShadow = true
 scene.add(cube)
-
 
 scene.add(chao)
 
@@ -204,9 +203,9 @@ window.addEventListener('keydown', (event) => {
       keys.w.pressed = true
       break
     case 'Space':
-      if (cube.position.y <= -0.3){ 
-        cube.velocity.y = 0.18
-      }
+      
+        cube.velocity.y = 0.06
+        console.log(cube.position.y)
       
       break
   }
