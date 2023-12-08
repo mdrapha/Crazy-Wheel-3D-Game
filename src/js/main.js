@@ -1,7 +1,9 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 //import { GLTFModel } from '../js/GLTFModel.js'; 
-
+import {chao} from './chao.js'
+// import {Box} from './classeBox.js'
+// import {cube} from './cube.js'
 
 document.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('scoreBoard').style.display = 'none';
@@ -25,16 +27,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
 // Cria um loader de texturas
-const textureLoader = new THREE.TextureLoader();
-// Carrega a textura do caminho especificado
-const roadTexture = textureLoader.load('/imgs/road.jpg');
-roadTexture.wrapS = THREE.ClampToEdgeWrapping; // Isso evitará a repetição no eixo Y
-roadTexture.wrapT = THREE.RepeatWrapping;
-const groundWidth = 10;
-const groundDepth = 50;
-const textureSize = 512; // Dimensão da textura
+// const textureLoader = new THREE.TextureLoader();
+// // Carrega a textura do caminho especificado
+// const roadTexture = textureLoader.load('/imgs/road.jpg');
+// roadTexture.wrapS = THREE.ClampToEdgeWrapping; // Isso evitará a repetição no eixo Y
+// roadTexture.wrapT = THREE.RepeatWrapping;
+// const chaoWidth = 10;
+// const chaoDepth = 50;
+// const textureSize = 512; // Dimensão da textura
 
-roadTexture.repeat.set(1, 10); // Ajuste estes números conforme necessário
+// roadTexture.repeat.set(1, 10); // Ajuste estes números conforme necessário
 
 const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(
@@ -110,7 +112,7 @@ class Box extends THREE.Mesh {
     this.back = this.position.z - this.depth / 2
   }
 
-  update(ground) {
+  update(chao) {
     this.updateSides()
 
     if (this.zAcceleration) this.velocity.z += 0.0003
@@ -118,17 +120,17 @@ class Box extends THREE.Mesh {
     this.position.x += this.velocity.x
     this.position.z += this.velocity.z
 
-    this.applyGravity(ground)
+    this.applyGravity(chao)
   }
 
-  applyGravity(ground) {
+  applyGravity(chao) {
     this.velocity.y += this.gravity
 
-    // this is where we hit the ground
+    // this is where we hit the chao
     if (
       boxCollision({
         box1: this,
-        box2: ground
+        box2: chao
       })
     ) {
       const friction = 0.5
@@ -167,22 +169,22 @@ const cube = new Box({
 cube.castShadow = true
 scene.add(cube)
 
-const ground = new Box({
-  width: 10,
-  height: 0.5,
-  depth: 50,
-  color: '#0369a1',
-  position: {
-    x: 0,
-    y: -2,
-    z: 0
-  }
-})
+// const chao = new Box({
+//   width: 10,
+//   height: 0.5,
+//   depth: 50,
+//   color: '#0369a1',
+//   position: {
+//     x: 0,
+//     y: -2,
+//     z: 0
+//   }
+// })
 
-ground.material.map = roadTexture;
-ground.material.needsUpdate = true;
-ground.receiveShadow = true
-scene.add(ground)
+// chao.material.map = roadTexture;
+// chao.material.needsUpdate = true;
+// chao.receiveShadow = true
+scene.add(chao)
 
 const light = new THREE.DirectionalLight(0xffffff, 1)
 light.position.y = 3
@@ -193,7 +195,7 @@ scene.add(light)
 scene.add(new THREE.AmbientLight(0xffffff, 0.5))
 
 camera.position.z = 5
-console.log(ground.top)
+console.log(chao.top)
 console.log(cube.bottom)
 
 const keys = {
@@ -294,8 +296,8 @@ function animate() {
   // const lerpFactor = deltaTime / 30000;
   // const targetSettings = isDay ? daySettings : nightSettings;
   // light.intensity = THREE.MathUtils.lerp(light.intensity, targetSettings.lightIntensity, lerpFactor);
-  // scene.background = new THREE.Color().lerpColors(
-  //   new THREE.Color(scene.background),
+  // scene.backchao = new THREE.Color().lerpColors(
+  //   new THREE.Color(scene.backchao),
   //   new THREE.Color(targetSettings.ambientColor),
   //   lerpFactor
   // );
@@ -312,9 +314,9 @@ function animate() {
   if (keys.s.pressed) cube.velocity.z = 0.05
   else if (keys.w.pressed) cube.velocity.z = -0.05
 
-  cube.update(ground)
+  cube.update(chao)
     enemies.forEach((enemy) => {
-      enemy.update(ground)
+      enemy.update(chao)
       if (
         boxCollision({
           box1: cube,
