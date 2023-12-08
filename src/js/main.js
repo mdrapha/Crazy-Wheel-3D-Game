@@ -278,24 +278,15 @@ function animate() {
   cube.update(chao)
     enemies.forEach((enemy) => {
       enemy.update(chao)
-      if (
-        boxCollision({
-          box1: cube,
-          box2: enemy
-        })
-        && !enemy.hasCollided
-      ) {
-        
-        //printe na tela qtd de vidas
-        console.log(lives)
+      if (boxCollision({ box1: cube, box2: enemy }) && !enemy.hasCollided) {
         lives--;
-
-        enemy.hasCollided = true
+        enemy.hasCollided = true;
+        updateLives(); // Atualize a exibição das vidas
       }
-
-      if(lives == 0) {
-        showGameOverScreen()
-        cancelAnimationFrame(animationId)
+      
+      if (lives == 0) {
+        showGameOverScreen();
+        cancelAnimationFrame(animationId);
       }
     })
   updateScore();
@@ -370,6 +361,8 @@ function resetGame() {
   // Reinicie qualquer outra variável de estado do jogo
   frames = 0;
   spawnRate = 200;
+  lives = 3; // Reiniciar vidas
+  updateLives(); // Atualizar display de vidas
 
   // Atualize a pontuação na tela
   updateScore();
@@ -400,6 +393,11 @@ document.getElementById('restartGame').addEventListener('click', function() {
     // Aqui você adiciona a lógica para reiniciar o jogo
     window.location.reload(); // Esta é uma maneira simples de reiniciar recarregando a página
 });
+
+function updateLives() {
+  document.getElementById('life').innerText = lives;
+}
+
 
 
 //animate()

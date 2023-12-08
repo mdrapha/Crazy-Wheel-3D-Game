@@ -82,6 +82,17 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     z-index: 100;
 }
+#lifeBoard {
+  position: absolute;
+  top: 40px; /* Ajuste para baixo do scoreBoard */
+  left: 10px;
+  color: white;
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  z-index: 100;
+}
+
+
 #startMenu {
     display: flex;
     flex-direction: column;
