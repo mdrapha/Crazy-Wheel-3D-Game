@@ -115,7 +115,7 @@ function boxCollision({ box1, box2 }) {
 }
 
 
-class GLTFBox extends Box {
+class GLTFMain extends Box {
   constructor({
     url,
     scale = 1,
@@ -148,11 +148,43 @@ class GLTFBox extends Box {
   }
 }
 
+class GLTFEnemy extends Box {
+  constructor({
+    url, // URL do modelo 3D do inimigo
+    scale = 1,
+    width,
+    height,
+    depth,
+    velocity = { x: 0, y: 0, z: 0 },
+    position = { x: 0, y: 0, z: 0 },
+    zAcceleration = false
+  }) {
+    super({ 
+      width, 
+      height, 
+      depth, 
+      color: '#FFFFFF', 
+      velocity, 
+      position, 
+      zAcceleration, 
+      isTransparent: true 
+    });
 
-const cube = new GLTFBox({
+    const loader = new GLTFLoader();
+    loader.load(url, (gltf) => {
+      this.gltfModel = gltf.scene;
+      this.gltfModel.scale.set(scale, scale, scale);
+      this.gltfModel.position.set(0, 0.1, 0); // Ajuste a posição conforme necessário
+      this.add(this.gltfModel);
+    });
+  }
+}
+
+
+const cube = new GLTFMain({
   url: '/models/tuner_wheel/scene.gltf',
   scale: 0.5,
-  width: 1,
+  width: 0.8,
   height: 2.9,
   depth: 2.55,
   position: { x: 0, y: 0, z: 0 },
@@ -257,7 +289,7 @@ document.getElementById('resumeButton').addEventListener('click', function() {
 const enemies = []
 
 let frames = 0
-let spawnRate = 200
+let spawnRate = 20
 
 
 function animate() {
@@ -291,9 +323,11 @@ function animate() {
   updateScore();
 
   if (frames % spawnRate === 0) {
-    if (spawnRate > 20) spawnRate -= 20
-
-    const enemy = new Box({
+    if (spawnRate > 2) spawnRate -= 2;
+  
+    const enemy = new GLTFEnemy({
+      url: '/models/traffic_cone/scene.gltf', // Substitua pelo caminho do seu modelo 3D
+      scale: 0.5, // Ajuste conforme necessário
       width: 1,
       height: 1,
       depth: 1,
@@ -305,15 +339,12 @@ function animate() {
       velocity: {
         x: 0,
         y: 0,
-        z: 0.005
-      },
-      color: 'red',
-      zAcceleration: true,
-      isTransparent: false // Garante que os inimigos não sejam transparentes
-    })
-    enemy.castShadow = true
-    scene.add(enemy)
-    enemies.push(enemy)
+        z: 0.03
+      }
+    });
+    enemy.castShadow = true;
+    scene.add(enemy);
+    enemies.push(enemy);
   }
 
   frames++
