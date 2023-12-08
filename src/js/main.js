@@ -1,14 +1,14 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/loaders/GLTFLoader.js';
-import {chao} from './chao.js'
+import { chao } from './chao.js'
 // import {Box} from './classeBox.js'
 // import {cube} from './cube.js'
 import { iluminacao } from './luz.js'
 
 // Definição da classe GLTFBox
 
-
+let lives = 3;
 
 document.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('scoreBoard').style.display = 'none';
@@ -126,15 +126,15 @@ class GLTFMain extends Box {
     position = { x: 0, y: 1, z: 0 },
     zAcceleration = false
   }) {
-    super({ 
-      width, 
-      height, 
-      depth, 
+    super({
+      width,
+      height,
+      depth,
       color: '#FFFFFF', // Cor branca, mas será transparente
-      velocity, 
-      position, 
-      zAcceleration, 
-      isTransparent: true 
+      velocity,
+      position,
+      zAcceleration,
+      isTransparent: true
     });
 
     // Carregar o modelo GLTF
@@ -159,15 +159,15 @@ class GLTFEnemy extends Box {
     position = { x: 0, y: 0, z: 0 },
     zAcceleration = false
   }) {
-    super({ 
-      width, 
-      height, 
-      depth, 
-      color: '#FFFFFF', 
-      velocity, 
-      position, 
-      zAcceleration, 
-      isTransparent: true 
+    super({
+      width,
+      height,
+      depth,
+      color: '#FFFFFF',
+      velocity,
+      position,
+      zAcceleration,
+      isTransparent: true
     });
 
     const loader = new GLTFLoader();
@@ -235,10 +235,10 @@ window.addEventListener('keydown', (event) => {
       keys.w.pressed = true
       break
     case 'Space':
-      
-        cube.velocity.y = 0.06
-        console.log(cube.position.y)
-      
+
+      cube.velocity.y = 0.06
+      console.log(cube.position.y)
+
       break
   }
 })
@@ -264,26 +264,26 @@ let score = 0;
 let lastUpdateTime = Date.now();
 
 function updateScore() {
-    const now = Date.now();
-    score += ((now - lastUpdateTime) / 1000)*5; // Pontos baseados no tempo em segundos
-    lastUpdateTime = now;
-    document.getElementById('score').innerText = Math.floor(score).toString();
+  const now = Date.now();
+  score += ((now - lastUpdateTime) / 1000) * 5; // Pontos baseados no tempo em segundos
+  lastUpdateTime = now;
+  document.getElementById('score').innerText = Math.floor(score).toString();
 }
 
 let isPaused = false;
 
-document.getElementById('pauseButton').addEventListener('click', function() {
-    isPaused = true;
-    document.getElementById('pauseButton').style.display = 'none';
-    document.getElementById('resumeButton').style.display = 'block';
+document.getElementById('pauseButton').addEventListener('click', function () {
+  isPaused = true;
+  document.getElementById('pauseButton').style.display = 'none';
+  document.getElementById('resumeButton').style.display = 'block';
 });
 
-document.getElementById('resumeButton').addEventListener('click', function() {
-    isPaused = false;
-    lastUpdateTime = Date.now(); 
-    document.getElementById('pauseButton').style.display = 'block';
-    document.getElementById('resumeButton').style.display = 'none';
-    animate();
+document.getElementById('resumeButton').addEventListener('click', function () {
+  isPaused = false;
+  lastUpdateTime = Date.now();
+  document.getElementById('pauseButton').style.display = 'block';
+  document.getElementById('resumeButton').style.display = 'none';
+  animate();
 });
 
 const enemies = []
@@ -293,7 +293,7 @@ let spawnRate = 20
 
 
 function animate() {
- 
+
 
   const animationId = requestAnimationFrame(animate)
   renderer.render(scene, camera)
@@ -308,23 +308,24 @@ function animate() {
   else if (keys.w.pressed) cube.velocity.z = -0.05
 
   cube.update(chao)
-    enemies.forEach((enemy) => {
-      enemy.update(chao)
-      if (
-        boxCollision({
-          box1: cube,
-          box2: enemy
-        })
-      ) {
-        showGameOverScreen()
-        cancelAnimationFrame(animationId)
-      }
-    })
+  enemies.forEach((enemy) => {
+    enemy.update(chao)
+    if (boxCollision({ box1: cube, box2: enemy }) && !enemy.hasCollided) {
+      lives--;
+      enemy.hasCollided = true;
+      updateLives(); // Atualize a exibição das vidas
+    }
+
+    if (lives == 0) {
+      showGameOverScreen();
+      cancelAnimationFrame(animationId);
+    }
+  })
   updateScore();
 
   if (frames % spawnRate === 0) {
     if (spawnRate > 2) spawnRate -= 2;
-  
+
     const enemy = new GLTFEnemy({
       url: '/models/traffic_cone/scene.gltf', // Substitua pelo caminho do seu modelo 3D
       scale: 0.5, // Ajuste conforme necessário
@@ -340,15 +341,19 @@ function animate() {
         x: 0,
         y: 0,
         z: 0.03
-      }
-    });
-    enemy.castShadow = true;
-    scene.add(enemy);
-    enemies.push(enemy);
+      },
+      color: 'red',
+      zAcceleration: true,
+      isTransparent: false // Garante que os inimigos não sejam transparentes
+    })
+    enemy.castShadow = true
+    enemy.hasCollided = false
+    scene.add(enemy)
+    enemies.push(enemy)
   }
 
   frames++
- 
+
 }
 
 // Inclua esta variável para evitar que o loop de animação seja iniciado mais de uma vez
@@ -360,7 +365,7 @@ function startGame() {
   lastUpdateTime = Date.now();
   document.getElementById('scoreBoard').style.display = 'block';
 
-  
+
   // Defina ou redefina o estado inicial do jogo, como a posição do jogador, inimigos, etc.
   // Se você tiver uma função separada para reiniciar o jogo, chame-a aqui
   resetGame();
@@ -368,7 +373,7 @@ function startGame() {
   // Esconda o menu de início, se ele ainda estiver visível
   const startMenu = document.getElementById('startMenu');
   startMenu.style.display = 'none';
-  
+
   // Inicie o loop de animação, se ainda não estiver em execução
   if (!animationId) {
     animate();
@@ -390,6 +395,8 @@ function resetGame() {
   // Reinicie qualquer outra variável de estado do jogo
   frames = 0;
   spawnRate = 200;
+  lives = 3; // Reiniciar vidas
+  updateLives(); // Atualizar display de vidas
 
   // Atualize a pontuação na tela
   updateScore();
@@ -400,8 +407,8 @@ function resetGame() {
 // Agora você precisa chamar startGame() quando o DOM estiver carregado e o botão de início for clicado
 document.addEventListener('DOMContentLoaded', (event) => {
   const startButton = document.getElementById('startGame');
-  
-  startButton.addEventListener('click', function() {
+
+  startButton.addEventListener('click', function () {
     startGame();
   });
 });
@@ -409,17 +416,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 function showGameOverScreen() {
 
-    document.getElementById('lastScore').innerText = Math.floor(score).toString();
-    const gameOverPopup = document.getElementById('gameOverPopup');
-    gameOverPopup.style.display = 'flex';
-    document.getElementById('scoreBoard').style.display = 'none';
+  document.getElementById('lastScore').innerText = Math.floor(score).toString();
+  const gameOverPopup = document.getElementById('gameOverPopup');
+  gameOverPopup.style.display = 'flex';
+  document.getElementById('scoreBoard').style.display = 'none';
 
 }
 
-document.getElementById('restartGame').addEventListener('click', function() {
-    // Aqui você adiciona a lógica para reiniciar o jogo
-    window.location.reload(); // Esta é uma maneira simples de reiniciar recarregando a página
+document.getElementById('restartGame').addEventListener('click', function () {
+  // Aqui você adiciona a lógica para reiniciar o jogo
+  window.location.reload(); // Esta é uma maneira simples de reiniciar recarregando a página
 });
 
-
-//animate()
+function updateLives() {
+  document.getElementById('life').innerText = lives;
+}
