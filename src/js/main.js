@@ -2,10 +2,11 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 //import { GLTFModel } from '../js/GLTFModel.js'; 
 import {chao} from './chao.js'
-// import {Box} from './classeBox.js'
-// import {cube} from './cube.js'
+import { GLTFLoader } from 'three/loaders/GLTFLoader.js';
 
-import { teste } from './teste.js'
+//import { teste } from './teste.js'
+
+let life = 3;
 
 document.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('scoreBoard').style.display = 'none';
@@ -158,18 +159,33 @@ function boxCollision({ box1, box2 }) {
 //     velocity: { x: 0, y: -0.01, z: 0 }
 //   });
 
-const cube = new Box({
-    width: 1,
-    height: 1,
-    depth: 1,
-    velocity: {
+// const cube = new Box({
+//     width: 1,
+//     height: 1,
+//     depth: 1,
+//     velocity: {
+//       x: 0,
+//       y: -0.01,
+//       z: 0
+//     }
+//   })
+
+//Instanciando um cubo com o modelo 3D GLTF
+const loader = new GLTFLoader();
+let cube;
+loader.load('/models/retro_wheel/scene.gltf', function (gltf) {
+    cube = gltf.scene;
+    cube.scale.set(0.5, 0.5, 0.5);
+    cube.position.set(0, 0, 0);
+    cube.velocity = {
       x: 0,
       y: -0.01,
       z: 0
-    }
-  })
-cube.castShadow = true
-scene.add(cube)
+    };
+    cube.castShadow = true
+    scene.add(cube);
+    console.log(cube);
+});
 
 // const chao = new Box({
 //   width: 10,
@@ -198,7 +214,7 @@ scene.add(new THREE.AmbientLight(0xffffff, 0.5))
 
 camera.position.z = 5
 console.log(chao.top)
-console.log(cube.bottom)
+// console.log(cube.bottom)
 
 const keys = {
   a: {
@@ -322,15 +338,15 @@ function animate() {
   cube.update(chao)
     enemies.forEach((enemy) => {
       enemy.update(chao)
-      if (
-        boxCollision({
-          box1: cube,
-          box2: enemy
-        })
-      ) {
-        showGameOverScreen()
-        cancelAnimationFrame(animationId)
-      }
+      // if (
+      //   boxCollision({
+      //     box1: cube,
+      //     box2: enemy
+      //   })
+      // ) {
+      //   showGameOverScreen()
+      //   cancelAnimationFrame(animationId)
+      // }
     })
   updateScore();
 
