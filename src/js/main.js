@@ -12,6 +12,7 @@ let lives = 3;
 
 document.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('scoreBoard').style.display = 'none';
+  document.getElementById('lifeBoard').style.display = 'none';
 });
 
 const scene = new THREE.Scene()
@@ -142,7 +143,7 @@ class GLTFMain extends Box {
     loader.load(url, (gltf) => {
       this.gltfModel = gltf.scene;
       this.gltfModel.scale.set(scale, scale, scale);
-      this.gltfModel.position.set(0, -1.4, 0);
+      this.gltfModel.position.set(0, -1.3, 0);
       this.add(this.gltfModel);
     });
   }
@@ -185,7 +186,7 @@ const cube = new GLTFMain({
   url: '/models/tuner_wheel/scene.gltf',
   scale: 0.5,
   width: 0.8,
-  height: 2.9,
+  height: 2.38,
   depth: 2.55,
   position: { x: 0, y: 0, z: 0 },
   velocity: { x: 0, y: 0.06, z: 0 },
@@ -301,6 +302,9 @@ function animate() {
   // movement code
   cube.velocity.x = 0
   cube.velocity.z = 0
+
+  cube.rotation.x -= 0.05
+
   if (keys.a.pressed && cube.position.x >= -5.0) cube.velocity.x = -0.05
   else if (keys.d.pressed && cube.position.x <= 5.0) cube.velocity.x = 0.05
 
@@ -364,6 +368,7 @@ function startGame() {
   score = 0;
   lastUpdateTime = Date.now();
   document.getElementById('scoreBoard').style.display = 'block';
+  document.getElementById('lifeBoard').style.display = 'block';
 
 
   // Defina ou redefina o estado inicial do jogo, como a posição do jogador, inimigos, etc.
