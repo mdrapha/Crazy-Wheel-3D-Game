@@ -1,14 +1,11 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 //import { GLTFModel } from '../js/GLTFModel.js'; 
-<<<<<<< HEAD
 import {chao} from './chao.js'
 // import {Box} from './classeBox.js'
 // import {cube} from './cube.js'
-=======
 
 import { teste } from './teste.js'
->>>>>>> refs/remotes/origin/main
 
 document.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('scoreBoard').style.display = 'none';
