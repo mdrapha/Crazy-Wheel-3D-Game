@@ -3,6 +3,39 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 //import { GLTFModel } from '../js/GLTFModel.js'; 
 
 
+document.addEventListener('DOMContentLoaded', (event) => {
+  document.getElementById('scoreBoard').style.display = 'none';
+});
+
+// Configurações para o dia
+const daySettings = {
+  lightIntensity: 1,
+  ambientColor: 0xffffff, // Branco
+};
+
+// Configurações para a noite
+const nightSettings = {
+  lightIntensity: 0.3,
+  ambientColor: 0x000044, // Azul escuro
+};
+
+// Estado atual e temporizador
+let isDay = true;
+let dayNightTimer = 0;
+
+
+// Cria um loader de texturas
+const textureLoader = new THREE.TextureLoader();
+// Carrega a textura do caminho especificado
+const roadTexture = textureLoader.load('/imgs/road.jpg');
+roadTexture.wrapS = THREE.ClampToEdgeWrapping; // Isso evitará a repetição no eixo Y
+roadTexture.wrapT = THREE.RepeatWrapping;
+const groundWidth = 10;
+const groundDepth = 50;
+const textureSize = 512; // Dimensão da textura
+
+roadTexture.repeat.set(1, 10); // Ajuste estes números conforme necessário
+
 const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(
   75,
@@ -146,6 +179,8 @@ const ground = new Box({
   }
 })
 
+ground.material.map = roadTexture;
+ground.material.needsUpdate = true;
 ground.receiveShadow = true
 scene.add(ground)
 
@@ -243,7 +278,28 @@ const enemies = []
 
 let frames = 0
 let spawnRate = 200
+
+
 function animate() {
+  const deltaTime = Date.now() - lastUpdateTime;
+
+  // Atualiza o temporizador de dia e noite
+  dayNightTimer += deltaTime;
+  if (dayNightTimer >= 30000) { // 30 segundos
+    isDay = !isDay;
+    dayNightTimer = 0;
+  }
+
+  // Interpolação das propriedades de iluminação
+  const lerpFactor = deltaTime / 30000;
+  const targetSettings = isDay ? daySettings : nightSettings;
+  light.intensity = THREE.MathUtils.lerp(light.intensity, targetSettings.lightIntensity, lerpFactor);
+  scene.background = new THREE.Color().lerpColors(
+    new THREE.Color(scene.background),
+    new THREE.Color(targetSettings.ambientColor),
+    lerpFactor
+  );
+
   const animationId = requestAnimationFrame(animate)
   renderer.render(scene, camera)
 
@@ -297,6 +353,8 @@ function animate() {
   }
 
   frames++
+  lastUpdateTime = Date.now();
+  requestAnimationFrame(animate);
 }
 
 // Inclua esta variável para evitar que o loop de animação seja iniciado mais de uma vez
@@ -306,6 +364,8 @@ function startGame() {
   // Inicialize ou reinicie a pontuação
   score = 0;
   lastUpdateTime = Date.now();
+  document.getElementById('scoreBoard').style.display = 'block';
+
   
   // Defina ou redefina o estado inicial do jogo, como a posição do jogador, inimigos, etc.
   // Se você tiver uma função separada para reiniciar o jogo, chame-a aqui
@@ -354,8 +414,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
 function showGameOverScreen() {
+
+    document.getElementById('lastScore').innerText = Math.floor(score).toString();
     const gameOverPopup = document.getElementById('gameOverPopup');
     gameOverPopup.style.display = 'flex';
+    document.getElementById('scoreBoard').style.display = 'none';
+
 }
 
 document.getElementById('restartGame').addEventListener('click', function() {

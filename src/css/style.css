@@ -1,6 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
 body {
     margin: 0;
     background: #0c4a6e;
+    font-family: 'Inter', sans-serif;
+
 }
 
 #gameOverPopup {
@@ -36,22 +40,28 @@ body {
     text-align: center;
     margin: 0;
 }
-
-#restartGame {
+.gameOverContent p {
+    font-size: 30px; /* Aumenta a fonte para o 'Last Score' */
+    color: white; /* Define a cor do texto para branco */
+    margin: 20px 0; /* Adiciona um pouco de espaço ao redor do parágrafo */
+  }
+  
+  /* Estilos para o botão Restart */
+  #restartGame {
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2); /* Horizontal offset, vertical offset, blur radius, color */
     width: 333px;
     height: 109px;
     border-radius: 40px;
     background: #565050;
-    font-size: 73px;
+    font-size: 50px; /* Padroniza a fonte com o 'Last Score' */
     color: #FFFFFF;
     display: flex;
-    justify-content: center; /* Alinha o texto horizontalmente */
-    align-items: center; /* Alinha o texto verticalmente */
+    justify-content: center;
+    align-items: center;
     flex-shrink: 0;
     cursor: pointer;
     border: none;
-}
-
+  }
 
   
 
@@ -107,7 +117,8 @@ body {
     margin-bottom: 20px; /* Espaço entre o logo e o botão */
   }
 
-  .menuContent button {
+  .menuContent button:hover {
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
     width: 200px;
     padding: 15px 30px;
     font-size: 24px;
@@ -116,11 +127,13 @@ body {
     color: white;
     border: none;
     border-radius: 15px;
-    margin-top: 10px; /* Espaço entre cada botão */
+    transform: translateY(-2px); /* Faz o botão mover-se ligeiramente para cima */
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   }
   
   
   #startGame {
+    width: 200px;
     padding: 15px 20px;
     font-size: 24px;
     cursor: pointer;
@@ -132,9 +145,25 @@ body {
   }
 
   #settingsMenu{
+    width: 200px;
+    padding: 15px 20px;
+    font-size: 24px;
+    margin-top: 10px; /* Espaço entre cada botão */
+    cursor: pointer;
+    color: white;
+    border: none;
+    border-radius: 15px;
     background:#565050;
   }
 
   #aboutMenu{
+    width: 200px;
+    padding: 15px 20px;
+    font-size: 24px;
+    margin-top: 10px; /* Espaço entre cada botão */
+    cursor: pointer;
+    color: white;
+    border: none;
+    border-radius: 15px;
     background:#565050;
   }
