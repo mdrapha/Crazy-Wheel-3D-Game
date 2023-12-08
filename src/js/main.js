@@ -2,6 +2,9 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 //import { GLTFModel } from '../js/GLTFModel.js'; 
 import {chao} from './chao.js'
+// import {Box} from './classeBox.js'
+// import {cube} from './cube.js'
+import { iluminacao } from './luz.js'
 import { GLTFLoader } from 'three/loaders/GLTFLoader.js';
 
 //import { teste } from './teste.js'
@@ -181,7 +184,7 @@ loader.load('/models/retro_wheel/scene.gltf', function (gltf) {
       x: 0,
       y: -0.01,
       z: 0
-    };
+    }
     cube.castShadow = true
     scene.add(cube);
     console.log(cube);
@@ -204,11 +207,7 @@ loader.load('/models/retro_wheel/scene.gltf', function (gltf) {
 // chao.receiveShadow = true
 scene.add(chao)
 
-const light = new THREE.DirectionalLight(0xffffff, 1)
-light.position.y = 3
-light.position.z = 1
-light.castShadow = true
-scene.add(light)
+scene.add(iluminacao)
 
 scene.add(new THREE.AmbientLight(0xffffff, 0.5))
 
