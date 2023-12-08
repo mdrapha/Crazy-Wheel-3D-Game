@@ -12,6 +12,7 @@ let lives = 3;
 
 document.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('scoreBoard').style.display = 'none';
+  document.getElementById('lifeBoard').style.display = 'none';
 });
 
 const scene = new THREE.Scene()
@@ -364,6 +365,7 @@ function startGame() {
   score = 0;
   lastUpdateTime = Date.now();
   document.getElementById('scoreBoard').style.display = 'block';
+  document.getElementById('lifeBoard').style.display = 'block';
 
 
   // Defina ou redefina o estado inicial do jogo, como a posição do jogador, inimigos, etc.
