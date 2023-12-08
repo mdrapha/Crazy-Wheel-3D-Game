@@ -397,7 +397,3 @@ document.getElementById('restartGame').addEventListener('click', function() {
 function updateLives() {
   document.getElementById('life').innerText = lives;
 }
-
-
-
-//animate()
