@@ -1,14 +1,12 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 //import { GLTFModel } from '../js/GLTFModel.js'; 
-<<<<<<< HEAD
 import {chao} from './chao.js'
 // import {Box} from './classeBox.js'
 // import {cube} from './cube.js'
-=======
 
 import { teste } from './teste.js'
->>>>>>> refs/remotes/origin/main
+import { iluminacao } from './luz.js'
 
 document.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('scoreBoard').style.display = 'none';
@@ -174,28 +172,11 @@ const cube = new Box({
 cube.castShadow = true
 scene.add(cube)
 
-// const chao = new Box({
-//   width: 10,
-//   height: 0.5,
-//   depth: 50,
-//   color: '#0369a1',
-//   position: {
-//     x: 0,
-//     y: -2,
-//     z: 0
-//   }
-// })
 
-// chao.material.map = roadTexture;
-// chao.material.needsUpdate = true;
-// chao.receiveShadow = true
 scene.add(chao)
 
-const light = new THREE.DirectionalLight(0xffffff, 1)
-light.position.y = 3
-light.position.z = 1
-light.castShadow = true
-scene.add(light)
+
+scene.add(iluminacao)
 
 scene.add(new THREE.AmbientLight(0xffffff, 0.5))
 
