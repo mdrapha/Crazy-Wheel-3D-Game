@@ -301,8 +301,8 @@ function animate() {
   // movement code
   cube.velocity.x = 0
   cube.velocity.z = 0
-  if (keys.a.pressed) cube.velocity.x = -0.05
-  else if (keys.d.pressed) cube.velocity.x = 0.05
+  if (keys.a.pressed && cube.position.x >= -5.0) cube.velocity.x = -0.05
+  else if (keys.d.pressed && cube.position.x <= 5.0) cube.velocity.x = 0.05
 
   if (keys.s.pressed) cube.velocity.z = 0.05
   else if (keys.w.pressed) cube.velocity.z = -0.05
