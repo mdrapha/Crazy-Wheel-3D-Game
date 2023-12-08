@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 //import { GLTFModel } from '../js/GLTFModel.js'; 
 
+import { teste } from './teste.js'
 
 document.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('scoreBoard').style.display = 'none';
@@ -226,7 +227,10 @@ window.addEventListener('keydown', (event) => {
       keys.w.pressed = true
       break
     case 'Space':
-      cube.velocity.y = 0.08
+      if (cube.position.y <= -0.3){ 
+        cube.velocity.y = 0.08
+      }
+      
       break
   }
 })
