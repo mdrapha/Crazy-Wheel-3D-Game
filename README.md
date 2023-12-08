@@ -1,1 +1,1 @@
-# Crazy-Wheel-3D-Game
+# Crazy Wheel 3D Game
