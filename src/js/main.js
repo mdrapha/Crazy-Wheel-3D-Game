@@ -235,7 +235,7 @@ window.addEventListener('keydown', (event) => {
       break
     case 'Space':
 
-      cube.velocity.y = 0.06
+      cube.velocity.y = 0.1
       console.log(cube.position.y)
 
       break
@@ -303,11 +303,11 @@ function animate() {
 
   cube.gltfModel.rotateX(-0.1)
 
-  if (keys.a.pressed && cube.position.x >= -5.0) cube.velocity.x = -0.05
-  else if (keys.d.pressed && cube.position.x <= 5.0) cube.velocity.x = 0.05
+  if (keys.a.pressed && cube.position.x >= -5.0) cube.velocity.x = -0.07
+  else if (keys.d.pressed && cube.position.x <= 5.0) cube.velocity.x = 0.07
 
-  if (keys.s.pressed) cube.velocity.z = 0.05
-  else if (keys.w.pressed) cube.velocity.z = -0.05
+  if (keys.s.pressed) cube.velocity.z = 0.1
+  else if (keys.w.pressed) cube.velocity.z = -0.1
 
   cube.update(chao)
   enemies.forEach((enemy) => {
