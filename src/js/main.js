@@ -86,23 +86,16 @@ export class Box extends THREE.Mesh {
   update(chao) {
     this.updateSides();
 
-    if (this.zAcceleration) this.velocity.z += 0.0003;
-
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
     this.position.z += this.velocity.z;
 
-    this.applyGravity(chao);
-  }
-
-  applyGravity(chao) {
-    this.velocity.y += this.gravity;
+    if(this.position.y > 0)
+      this.velocity.y += this.gravity;
 
     if (boxCollision({ box1: this, box2: chao })) {
-      const friction = 0.5;
-      this.velocity.y *= -friction;
-    } else {
-      this.position.y += this.velocity.y;
+      this.position.y = 0;
+      this.velocity.y = 0;
     }
   }
 }
