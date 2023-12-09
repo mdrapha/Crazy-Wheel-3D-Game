@@ -34,7 +34,7 @@ document.body.appendChild(renderer.domElement)
 
 const controls = new OrbitControls(camera, renderer.domElement)
 
-export class Box extends THREE.Mesh {
+export class Box {
   constructor({
     width,
     height,
@@ -59,13 +59,10 @@ export class Box extends THREE.Mesh {
       opacity: isTransparent ? 0 : 1
     };
 
-    super(new THREE.BoxGeometry(width, height, depth), new THREE.MeshStandardMaterial(materialOptions));
-
     this.width = width;
     this.height = height;
     this.depth = depth;
-
-    this.position.set(position.x, position.y, position.z);
+    this.position = position
 
     this.velocity = velocity;
     this.gravity = -0.002;
@@ -97,6 +94,13 @@ export class Box extends THREE.Mesh {
       this.position.y = 0;
       this.velocity.y = 0;
     }
+
+    if(this.gltfModel)
+    this.gltfModel.position.set(
+      this.position.x,
+      this.position.y - 0.5,
+      this.position.z
+    )
   }
 }
 
@@ -136,8 +140,9 @@ class GLTFMain extends Box {
     loader.load(url, (gltf) => {
       this.gltfModel = gltf.scene;
       this.gltfModel.scale.set(scale, scale, scale);
-      this.gltfModel.position.set(0, -1.3, 0);
-      this.add(this.gltfModel);
+      this.gltfModel.position.set(0, -2, 0);
+      this.gltfModel.children[0].position.set(0, -2.5, 0)
+      scene.add(this.gltfModel)
     });
   }
 }
@@ -169,7 +174,8 @@ class GLTFEnemy extends Box {
       this.gltfModel = gltf.scene;
       this.gltfModel.scale.set(scale, scale, scale);
       this.gltfModel.position.set(0, 0.1, 0); // Ajuste a posição conforme necessário
-      this.add(this.gltfModel);
+      this.gltfModel.children[0].position.set(0, -1.5, 0)
+      scene.add(this.gltfModel)
     });
   }
 }
@@ -182,12 +188,11 @@ const cube = new GLTFMain({
   height: 2.38,
   depth: 2.55,
   position: { x: 0, y: 0, z: 0 },
-  velocity: { x: 0, y: 0.06, z: 0 },
+  velocity: { x: 0, y: 0, z: 0 },
   isTransparent: true // Torna o cubo transparente
 });
 
 cube.castShadow = true
-scene.add(cube)
 
 scene.add(chao)
 
@@ -296,7 +301,7 @@ function animate() {
   cube.velocity.x = 0
   cube.velocity.z = 0
 
-  cube.rotation.x -= 0.1
+  cube.gltfModel.rotateX(-0.1)
 
   if (keys.a.pressed && cube.position.x >= -5.0) cube.velocity.x = -0.05
   else if (keys.d.pressed && cube.position.x <= 5.0) cube.velocity.x = 0.05
@@ -345,7 +350,6 @@ function animate() {
     })
     enemy.castShadow = true
     enemy.hasCollided = false
-    scene.add(enemy)
     enemies.push(enemy)
   }
 
