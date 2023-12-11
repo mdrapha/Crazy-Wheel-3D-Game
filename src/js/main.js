@@ -9,6 +9,7 @@ import { iluminacao } from './luz.js'
 // Definição da classe GLTFBox
 
 let lives = 3;
+let velocidade = 0.35;
 
 document.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('scoreBoard').style.display = 'none';
@@ -235,7 +236,7 @@ window.addEventListener('keydown', (event) => {
       break
     case 'Space':
       if (cube.position.y <= 0.1)
-        cube.velocity.y = 0.1
+      cube.velocity.y = 0.1
       break
   }
 })
@@ -340,7 +341,7 @@ function animate() {
       velocity: {
         x: 0,
         y: 0,
-        z: 0.03
+        z: velocidade
       },
       color: 'red',
       zAcceleration: true,
