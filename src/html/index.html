@@ -17,6 +17,9 @@
     </script>
 </head>
 <body>
+
+      
+
      <!-- Pop-up Game Over -->
      <div id="gameOverPopup" style="display: none;">
       <div class="gameOverContent">
@@ -39,6 +42,7 @@
     <button id="settingsMenu">Settings</button>
     <a href="https://github.com/mdrapha/Crazy-Wheel-3D-Game" target="_blank" >
     <button id="aboutMenu">About</button>
+  </a>
   </div>
 </div>
 
@@ -56,7 +60,36 @@
     <div id="lifeBoard">
       Lifes: <span id="life">3</span>
     </div>
+
+    <audio id="backgroundMusic" loop>
+      <source src="/msc/highoctane.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="musicControl">
+      <button id="musicButton">🎵</button>
+    </div>
+  
     
+    <script> 
+      var music= document.getElementById('backgroundMusic')
+      music.play();
+      music.volume = 0.04;
+    </script>
+  
+    <script>
+      document.getElementById('musicButton').addEventListener('click', function() {
+
+        var backgroundMusic = document.getElementById('backgroundMusic');
+
+        if (backgroundMusic.volume == 0) {
+          backgroundMusic.volume = 0.03;
+          this.innerHTML = '🎵';
+        } else {
+          backgroundMusic.volume = 0;
+          this.innerHTML = '🔇';
+        }
+    });
+    </script>
 
     <script type="module" src="/src/js/main.js"></script>
 </body>

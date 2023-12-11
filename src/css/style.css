@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
-body {
+html, body {
     margin: 0;
     background: #0c4a6e;
+    padding: 0;
+    overflow: hidden; /* Isso esconde as barras de rolagem */
     font-family: 'Inter', sans-serif;
 
 }
@@ -188,3 +190,20 @@ body {
     border-radius: 15px;
     background:#565050;
   }
+
+  #musicControl {
+    position: fixed; /* Ou outro posicionamento conforme necessário */
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000; /* Garante que fique no topo dos outros elementos */
+}
+
+#musicButton {
+    background-color: #f0f0f0; /* Cor de fundo */
+    border: none; /* Sem borda */
+    border-radius: 50%; /* Botão redondo */
+    font-size: 24px; /* Tamanho do ícone da nota musical */
+    cursor: pointer; /* Cursor como ponteiro para indicar que é clicável */
+    padding: 10px 15px; /* Espaçamento interno */
+}
+
