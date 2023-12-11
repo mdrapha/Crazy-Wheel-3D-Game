@@ -33,6 +33,11 @@ renderer.shadowMap.enabled = true
 renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
 
+const textureLoader = new THREE.TextureLoader();
+const backgroundTexture = textureLoader.load('/imgs/ceu.png');
+
+scene.background = backgroundTexture;
+
 const controls = new OrbitControls(camera, renderer.domElement)
 
 export class Box {
@@ -181,7 +186,6 @@ class GLTFEnemy extends Box {
   }
 }
 
-
 const cube = new GLTFMain({
   url: '/models/tuner_wheel/scene.gltf',
   scale: 0.5,
@@ -202,6 +206,8 @@ scene.add(iluminacao)
 scene.add(new THREE.AmbientLight(0xffffff, 0.5))
 
 camera.position.z = 5
+camera.position.y = 4
+camera.position.x = 0
 console.log(chao.top)
 console.log(chao.bottom)
 
@@ -288,6 +294,64 @@ const enemies = []
 
 let frames = 0
 let spawnRate = 40
+
+function createPoste(position) {
+  // Criar o objeto poste que será retornado
+  let poste = {
+    gltfModel: null,
+    castShadow: true,
+    position: position
+  };
+
+  // Carregar o modelo GLTF
+  const loader = new GLTFLoader();
+  loader.load('/models/post/scene.gltf', (gltf) => {
+    gltf.scene.scale.set(1, 1, 1);
+    gltf.scene.position.set(position.x, position.y, position.z);
+    gltf.scene.castShadow = true;
+    scene.add(gltf.scene);
+    poste.gltfModel = gltf.scene;
+  }, undefined, function (error) {
+    console.error(error);
+  });
+
+  return poste;
+}
+
+// Função para adicionar SpotLight e PointLight a um poste
+function addLightsToPoste(poste) {
+  const spotLight = new THREE.SpotLight(0xFFFF00, 2); 
+  spotLight.position.set(poste.position.x, poste.position.y + 6, poste.position.z);
+  spotLight.castShadow = true;
+  spotLight.angle = Math.PI / 4;
+  spotLight.penumbra = 0.1;
+  spotLight.decay = 2;
+  spotLight.distance = 500;
+  spotLight.target.position.set(poste.position.x, 0, poste.position.z);
+  scene.add(spotLight.target);
+
+  const pointLight = new THREE.PointLight(0xFFFF00, 2, 100);
+  pointLight.position.set(poste.position.x, poste.position.y + 6, poste.position.z);
+  scene.add(pointLight);
+
+  // Adicionando as luzes à cena
+  scene.add(spotLight);
+  scene.add(pointLight);
+
+  return { spotLight, pointLight };
+}
+
+const poste1 = createPoste({ x: -6, y: -1.65, z: 4 });
+const lights1 = addLightsToPoste(poste1);
+
+const poste2 = createPoste({ x: 6, y: -1.65, z: -3 });
+const lights2 = addLightsToPoste(poste2);
+
+const poste3 = createPoste({ x: -6, y: -1.65, z: -10 });
+const lights3 = addLightsToPoste(poste3);
+
+const poste4 = createPoste({ x: 6, y: -1.65, z: -17 });
+const lights4 = addLightsToPoste(poste4);
 
 
 function animate() {
@@ -402,6 +466,8 @@ function resetGame() {
   // Atualize a pontuação na tela
   updateScore();
 }
+
+
 
 
 

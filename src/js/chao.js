@@ -6,7 +6,7 @@ const chao = new Box ({
 
     width: 10,
     height: 0.5,
-    depth: 50,
+    depth: 400,
     color: '#0369a1',
     position: {
         x: 0,

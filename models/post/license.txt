@@ -1,0 +1,11 @@
+Model Information:
+* title:	Poste
+* source:	https://sketchfab.com/3d-models/poste-93e7bcde91ba4169a415649a7a61034b
+* author:	Vitor Augusto (https://sketchfab.com/Vitorodrigues)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Poste" (https://sketchfab.com/3d-models/poste-93e7bcde91ba4169a415649a7a61034b) by Vitor Augusto (https://sketchfab.com/Vitorodrigues) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
