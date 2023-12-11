@@ -234,10 +234,8 @@ window.addEventListener('keydown', (event) => {
       keys.w.pressed = true
       break
     case 'Space':
-
-      cube.velocity.y = 0.1
-      console.log(cube.position.y)
-
+      if (cube.position.y <= 0.1)
+        cube.velocity.y = 0.1
       break
   }
 })
