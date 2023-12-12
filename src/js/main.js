@@ -295,15 +295,24 @@ const enemies = []
 let frames = 0
 let spawnRate = 40
 
-function createPoste(position) {
-  // Criar o objeto poste que será retornado
+// Função para remover um poste e suas luzes da cena
+function removePoste(poste) {
+  if (poste.gltfModel) {
+    scene.remove(poste.gltfModel);
+  }
+  scene.remove(poste.lights.spotLight);
+  scene.remove(poste.lights.pointLight);
+}
+
+// Função para criar um poste 
+function createPoste(position, callback) {
   let poste = {
     gltfModel: null,
     castShadow: true,
-    position: position
+    position: position,
+    lights: null
   };
 
-  // Carregar o modelo GLTF
   const loader = new GLTFLoader();
   loader.load('/models/post/scene.gltf', (gltf) => {
     gltf.scene.scale.set(1, 1, 1);
@@ -311,20 +320,21 @@ function createPoste(position) {
     gltf.scene.castShadow = true;
     scene.add(gltf.scene);
     poste.gltfModel = gltf.scene;
+    poste.lights = addLightsToPoste(poste); // Adiciona luzes
+    callback(poste); // Chama o callback com o poste criado
   }, undefined, function (error) {
     console.error(error);
   });
-
-  return poste;
 }
+
 
 // Função para adicionar SpotLight e PointLight a um poste
 function addLightsToPoste(poste) {
-  const spotLight = new THREE.SpotLight(0xFFFF00, 2); 
+  const spotLight = new THREE.SpotLight(0xFFFF00, 5);
   spotLight.position.set(poste.position.x, poste.position.y + 6, poste.position.z);
   spotLight.castShadow = true;
-  spotLight.angle = Math.PI / 4;
-  spotLight.penumbra = 0.1;
+  spotLight.angle = Math.PI / 6; 
+  spotLight.penumbra = 0.5; 
   spotLight.decay = 2;
   spotLight.distance = 500;
   spotLight.target.position.set(poste.position.x, 0, poste.position.z);
@@ -341,18 +351,72 @@ function addLightsToPoste(poste) {
   return { spotLight, pointLight };
 }
 
-const poste1 = createPoste({ x: -7, y: -1.65, z: 4 });
-const lights1 = addLightsToPoste(poste1);
 
-const poste2 = createPoste({ x: 7, y: -1.65, z: -3 });
-const lights2 = addLightsToPoste(poste2);
+// Função para atualizar a posição dos postes e luzes
 
-const poste3 = createPoste({ x: -7, y: -1.65, z: -10 });
-const lights3 = addLightsToPoste(poste3);
+function updatePostes() {
+  const speed = velocidade; // Velocidade de movimento dos postes
+  const zStart = -50; // Valor de Z inicial dos postes
 
-const poste4 = createPoste({ x: 7, y: -1.65, z: -17 });
-const lights4 = addLightsToPoste(poste4);
+  // Atualiza postes da direita
+  atualizaLado(postesDireita, speed, zStart);
 
+  // Atualiza postes da esquerda
+  atualizaLado(postesEsquerda, speed, zStart);
+}
+
+function atualizaLado(postesLado, speed, zStart) {
+  let postesARemover = [];
+
+  postesLado.forEach((poste, index) => {
+    if (poste.gltfModel) {
+      poste.gltfModel.position.z += speed;
+      poste.lights.spotLight.position.z += speed;
+      poste.lights.pointLight.position.z += speed;
+
+      if (poste.gltfModel.position.z >= 60) {
+        postesARemover.push(index);
+      }
+    }
+  });
+
+  // Processa a remoção após a iteração
+  postesARemover.forEach((index) => {
+    let posteRemovido = postesLado[index];
+    removePoste(posteRemovido);
+    postesLado.splice(index, 1);
+
+    // Cria um novo poste na posição inicial
+    createPoste({ x: posteRemovido.position.x, y: posteRemovido.position.y, z: zStart }, (novoPoste) => {
+      postesLado.push(novoPoste);
+    });
+  });
+}
+
+
+// Inicialização dos postes
+const postesDireita = [];
+const postesEsquerda = [];
+
+function inicializaPostes() {
+  const distanciaZ = 48; // Distância entre cada poste
+  const numeroDePostes = 2; // Número de postes em cada lado
+  const zInicial = -50; // Posição Z inicial
+
+  for (let i = 0; i < numeroDePostes; i++) {
+    // Postes do lado esquerdo
+    createPoste({ x: -7, y: -1.65, z: 20 + zInicial + i * distanciaZ }, (posteEsquerdo) => {
+      postesEsquerda.push(posteEsquerdo);
+    });
+
+    // Postes do lado direito
+    createPoste({ x: 7, y: -1.65, z: zInicial + i * distanciaZ }, (posteDireito) => {
+      postesDireita.push(posteDireito);
+    });
+  }
+}
+
+inicializaPostes();
 
 function animate() {
 
@@ -386,6 +450,7 @@ function animate() {
       cancelAnimationFrame(animationId);
     }
   })
+
   updateScore();
 
   if (frames % spawnRate === 0) {
@@ -417,6 +482,8 @@ function animate() {
   }
 
   frames++
+
+  updatePostes();
 
 }
 
