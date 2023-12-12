@@ -389,7 +389,7 @@ function animate() {
   updateScore();
 
   if (frames % spawnRate === 0) {
-    if (spawnRate > 2) spawnRate -= 2;
+    if (spawnRate > 4) spawnRate -= 2;
 
     const enemy = new GLTFEnemy({
       url: '/models/traffic_cone/scene.gltf', // Substitua pelo caminho do seu modelo 3D
