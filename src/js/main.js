@@ -10,6 +10,8 @@ import { iluminacao } from './luz.js'
 
 let lives = 3;
 let velocidade = 0.35;
+let spawnRate = 40
+
 
 document.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('scoreBoard').style.display = 'none';
@@ -293,7 +295,6 @@ document.getElementById('resumeButton').addEventListener('click', function () {
 const enemies = []
 
 let frames = 0
-let spawnRate = 40
 
 // Função para remover um poste e suas luzes da cena
 function removePoste(poste) {
