@@ -6,7 +6,6 @@ import { chao } from './chao.js'
 // import {cube} from './cube.js'
 import { iluminacao } from './luz.js'
 
-// Definição da classe GLTFBox
 
 let lives=3;
 var velocidade= 0.25;
@@ -17,7 +16,6 @@ var spawnRate= 60;
 
 
 let frames = 0;
-
 
 document.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('scoreBoard').style.display = 'none';
@@ -313,6 +311,7 @@ function removePoste(poste) {
 
 // Função para criar um poste 
 function createPoste(position, callback) {
+
   let poste = {
     gltfModel: null,
     castShadow: true,
@@ -520,18 +519,10 @@ function startGame() {
 }
 
 function resetGame() {
-  // Configure ou redefina a posição e estado inicial do jogador e dos inimigos
-  // Se o seu jogo já possui essa lógica em outro lugar, você pode chamar essa função aqui
-  // Exemplo:
-  // cube.position.set(0, 0, 0);
-  // cube.velocity.y = 0;
-  // Remova todos os inimigos existentes
   enemies.forEach((enemy) => {
     scene.remove(enemy);
   });
   enemies.length = 0;
-
-  // Reinicie qualquer outra variável de estado do jogo
   frames = 0;
   spawnRate = 200;
   lives = 3; // Reiniciar vidas
@@ -558,9 +549,6 @@ const acostamento2 = new THREE.Mesh(acostamentoGeometry2, acostamentoMaterial2);
 acostamento2.position.set(7.5, -1.60, 4);
 scene.add(acostamento2);
 
-
-
-
 // Agora você precisa chamar startGame() quando o DOM estiver carregado e o botão de início for clicado
 document.addEventListener('DOMContentLoaded', (event) => {
   const startButton = document.getElementById('startGame');
@@ -585,6 +573,17 @@ document.getElementById('restartGame').addEventListener('click', function () {
   window.location.reload(); // Esta é uma maneira simples de reiniciar recarregando a página
 });
 
+document.getElementById('settingsMenu').addEventListener('click', function() {
+  document.getElementById('settingsPopup').style.display = 'block';
+});
+
+document.getElementById('closeSettings').addEventListener('click', function() {
+  document.getElementById('settingsPopup').style.display = 'none';
+});
+
+
+
 function updateLives() {
   document.getElementById('life').innerText = lives;
 }
+
