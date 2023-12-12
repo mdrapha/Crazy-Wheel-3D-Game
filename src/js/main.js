@@ -186,7 +186,7 @@ class GLTFEnemy extends Box {
       this.gltfModel = gltf.scene;
       this.gltfModel.scale.set(scale, scale, scale);
       this.gltfModel.position.set(0, 0.1, 0); // Ajuste a posição conforme necessário
-      this.gltfModel.children[0].position.set(0, -1.5, 0)
+      this.gltfModel.children[0].position.set(0, -0.3, 0)
       scene.add(this.gltfModel)
     });
   }
@@ -464,7 +464,7 @@ function animate() {
 
     const enemy = new GLTFEnemy({
       url: '/models/traffic_cone/scene.gltf', // Substitua pelo caminho do seu modelo 3D
-      scale: 0.5, // Ajuste conforme necessário
+      scale: 0.8, // Ajuste conforme necessário
       width: 1,
       height: 1,
       depth: 1,
