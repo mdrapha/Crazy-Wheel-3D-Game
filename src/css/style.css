@@ -207,3 +207,90 @@ html, body {
     padding: 10px 15px; /* Espaçamento interno */
 }
 
+/* Estilos para o Pop-up de Configurações */
+#settingsPopup {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  width: 500px; /* Largura aumentada */
+  height: auto; 
+  padding: 20px; 
+  border-radius: 30px;
+  background: rgba(60, 60, 60, 1);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+  z-index: 1001;
+}
+
+/* Estilos para o conteúdo do pop-up */
+.settingsContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.settingsContent h2 {
+  color: #E77C00;
+  font-size: 40px;
+  margin: 10px 0;
+}
+
+.settingsContent p {
+  font-size: 24px;
+  color: white;
+  margin: 10px 0;
+}
+
+/* Estilos para os botões dentro do pop-up */
+.settingsContent button {
+  width: 150px; /* Largura diminuída */
+  padding: 10px 15px;
+  font-size: 18px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  background: #565050;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.settingsContent button:hover {
+  background: #d6610e;
+  transform: translateY(-2px);
+}
+
+#closeSettings {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #E77C00; /* Cor laranja */
+  border: none;
+  border-radius: 50%; /* Circular */
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+}
+
+
+/* Alinhamento dos botões de dificuldade lado a lado */
+.difficultyButtons {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Espaço entre os botões */
+}
+
+.difficultyButtonSelected {
+  background-color: #d6610e; /* Um tom mais escuro ou diferente para indicar a seleção */
+}
+
