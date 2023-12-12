@@ -8,9 +8,15 @@ import { iluminacao } from './luz.js'
 
 // Definição da classe GLTFBox
 
-let lives = 3;
-let velocidade = 0.35;
-let spawnRate = 40
+let lives=3;
+var velocidade= 0.25;
+var spawnRate= 60;
+
+
+
+
+
+let frames = 0;
 
 
 document.addEventListener('DOMContentLoaded', (event) => {
