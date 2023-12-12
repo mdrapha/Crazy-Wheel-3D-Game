@@ -344,16 +344,16 @@ function addLightsToPoste(poste) {
   return { spotLight, pointLight };
 }
 
-const poste1 = createPoste({ x: -6, y: -1.65, z: 4 });
+const poste1 = createPoste({ x: -7, y: -1.65, z: 4 });
 const lights1 = addLightsToPoste(poste1);
 
-const poste2 = createPoste({ x: 6, y: -1.65, z: -3 });
+const poste2 = createPoste({ x: 7, y: -1.65, z: -3 });
 const lights2 = addLightsToPoste(poste2);
 
-const poste3 = createPoste({ x: -6, y: -1.65, z: -10 });
+const poste3 = createPoste({ x: -7, y: -1.65, z: -10 });
 const lights3 = addLightsToPoste(poste3);
 
-const poste4 = createPoste({ x: 6, y: -1.65, z: -17 });
+const poste4 = createPoste({ x: 7, y: -1.65, z: -17 });
 const lights4 = addLightsToPoste(poste4);
 
 
@@ -462,6 +462,22 @@ function resetGame() {
   updateScore();
 }
 
+// Carregue a textura desejada
+const texture = textureLoader.load('/imgs/opcao_acost1.png');
+
+// Crie um material usando a textura
+const acostamentoMaterial1 = new THREE.MeshStandardMaterial({ map: texture });
+const acostamentoMaterial2 = new THREE.MeshStandardMaterial({ map: texture });
+
+const acostamentoGeometry1 = new THREE.BoxGeometry(3, 0, 400);
+const acostamento1 = new THREE.Mesh(acostamentoGeometry1, acostamentoMaterial1);
+acostamento1.position.set(-7.5, -1.60, 4);
+scene.add(acostamento1);
+
+const acostamentoGeometry2 = new THREE.BoxGeometry(3, 0, 400);
+const acostamento2 = new THREE.Mesh(acostamentoGeometry2, acostamentoMaterial2);
+acostamento2.position.set(7.5, -1.60, 4);
+scene.add(acostamento2);
 
 // Agora você precisa chamar startGame() quando o DOM estiver carregado e o botão de início for clicado
 document.addEventListener('DOMContentLoaded', (event) => {
