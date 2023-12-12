@@ -68,6 +68,35 @@
     <div id="musicControl">
       <button id="musicButton">🎵</button>
     </div>
+
+    <div id="settingsPopup" style="display: none;">
+      <div class="settingsContent">
+        <h2>Settings</h2>
+        <p>Choose Difficulty:</p>
+        <div class="difficultyButtons">
+          <button id="easymMode" class="difficultyButtonSelected">Easy</button>
+          <button id="mediumMode">Medium</button>
+          <button id="hardMode">Hard</button>
+        </div>
+        <button id="closeSettings">X</button>
+      </div>
+    </div>
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          document.querySelectorAll('.difficultyButtons button').forEach(button => {
+              button.addEventListener('click', function() {
+                  document.querySelectorAll('.difficultyButtons button').forEach(btn => {
+                      btn.classList.remove('difficultyButtonSelected');
+                  });
+                  this.classList.add('difficultyButtonSelected');
+                  localStorage.setItem('dificuldade', this.id);
+              });
+          });
+      });
+      </script>
+      
+      
   
     
     <script> 
