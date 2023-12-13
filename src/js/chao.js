@@ -4,7 +4,7 @@ import {Box} from './classeBox.js'
 
 const chao = new Box ({
 
-    width: 10,
+    width: 13,
     height: 0.5,
     depth: 400,
     color: '#0369a1',
