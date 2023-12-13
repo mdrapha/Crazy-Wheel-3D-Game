@@ -406,7 +406,7 @@ const postesEsquerda = [];
 function inicializaPostes() {
   const distanciaZ = 48; // Distância entre cada poste
   const numeroDePostes = 2; // Número de postes em cada lado
-  const zInicial = -50; // Posição Z inicial
+  const zInicial = -150; // Posição Z inicial
 
   for (let i = 0; i < numeroDePostes; i++) {
     // Postes do lado esquerdo
@@ -473,7 +473,7 @@ function animate() {
       position: {
         x: (Math.random() - 0.5) * 10,
         y: 0,
-        z: -50
+        z: -150
       },
       velocity: {
         x: 0,
