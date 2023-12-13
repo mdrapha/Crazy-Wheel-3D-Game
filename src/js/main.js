@@ -445,10 +445,13 @@ function animate() {
     if (boxCollision({ box1: cube, box2: enemy }) && !enemy.hasCollided) {
       lives--;
       enemy.hasCollided = true;
+      // Se o cubo colidir com um inimigo pula para simular a colisão
+      cube.velocity.y = 0.05;
       updateLives(); // Atualize a exibição das vidas
     }
 
     if (lives == 0) {
+      
       showGameOverScreen();
       cancelAnimationFrame(animationId);
     }
