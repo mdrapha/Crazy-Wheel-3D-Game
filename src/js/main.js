@@ -14,7 +14,6 @@ let spawnRate= 60;
 
 
 
-
 let frames = 0;
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -41,6 +40,9 @@ document.body.appendChild(renderer.domElement)
 
 const textureLoader = new THREE.TextureLoader();
 const backgroundTexture = textureLoader.load('/imgs/ceu.png');
+
+const ambientLight = new THREE.AmbientLight( 0xffffff, 0.5 );
+scene.add( ambientLight );
 
 scene.background = backgroundTexture;
 
