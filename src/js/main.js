@@ -400,7 +400,7 @@ function animate() {
       position: {
         x: (Math.random() - 0.5) * 10,
         y: 0,
-        z: -20
+        z: -50
       },
       velocity: {
         x: 0,
