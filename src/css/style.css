@@ -294,3 +294,70 @@ html, body {
   background-color: #d6610e; /* Um tom mais escuro ou diferente para indicar a seleção */
 }
 
+/* Estilos para o Pop-up About Authors */
+#aboutAuthorsPopup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 592px;
+  padding: 79px 73px;
+  border-radius: 85px;
+  background: rgba(80, 80, 80, 0.9); /* Fundo translúcido */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  z-index: 1001; /* Maior que o do menu de início para aparecer em cima */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.aboutAuthorsContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.aboutAuthorsContent h2 {
+  color: #E77C00;
+  font-size: 73px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0;
+}
+
+.aboutAuthorsContent p {
+  font-size: 25px;
+  color: white;
+  font-weight: 400;
+  margin: 20px 0;
+}
+
+/* Estilos para o botão 'Go to GitHub' para combinar com o botão 'Restart' */
+#goToGithub {
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  width: 150px;
+  height: 40px;
+  border-radius: 40px;
+  background: #E77C00;
+  font-size: 18px;
+  color: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+}
+
+/* Estilos para o botão 'Close' do Pop-up dos Autores */
+#closeAbout {
+  background-color: #E77C00; /* Cor laranja para combinar com os outros botões */
+  border: none;
+  border-radius: 40px;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px 15px;
+  color: white;
+  margin-top: 20px; /* Espaço entre o botão e o texto dos autores */
+}

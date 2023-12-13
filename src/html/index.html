@@ -30,12 +30,30 @@
     <img src="../../imgs/logo.png" alt="Crazy Wheels Logo" id="gameLogo" />
     <button id="startGame">Start Game</button>
     <!-- <button id="settingsMenu">Settings</button> -->
-    <a href="https://github.com/mdrapha/Crazy-Wheel-3D-Game" target="_blank" >
     <button id="aboutMenu">About</button>
   </a>
   </div>
 </div>
 
+<div id="aboutAuthorsPopup" style="display: none;">
+  <div class="aboutAuthorsContent">
+    <h2>Authors</h2>
+    <p>Raphael Damasceno Rocha de Moraes</p>
+    <p>Davi Seiji Kawai Santos</p>
+    <p>Caio Bonani Carvalho</p>
+    <p>Enzo Reis de Oliveira</p>
+    <p>Matheus Ferreira Santos</p>
+    <p>Mateus da Silva Romani</p>
+    <a href="https://github.com/mdrapha/Crazy-Wheel-3D-Game" target="_blank" id="goToGithubLink">
+      <button id="goToGithub">Go to GitHub
+        
+      </button>
+    </a>
+    
+
+    <button id="closeAbout">Close</button>
+  </div>
+</div>
     
     <div id="pauseMenu" style="display: none;">
       <button id="pauseButton">Pausar</button>
@@ -95,6 +113,19 @@
               });
           });
       });
+      </script>
+
+      <script>
+        // Quando o botão 'About' é clicado, mostra o pop-up dos autores
+        document.getElementById('aboutMenu').addEventListener('click', function() {
+          document.getElementById('aboutAuthorsPopup').style.display = 'block';
+        });
+
+        // Quando o botão 'Close' é clicado, fecha o pop-up dos autores
+        document.getElementById('closeAbout').addEventListener('click', function() {
+          document.getElementById('aboutAuthorsPopup').style.display = 'none';
+        });
+
       </script>
       
       
