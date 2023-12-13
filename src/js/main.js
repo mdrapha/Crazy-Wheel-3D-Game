@@ -8,8 +8,8 @@ import { iluminacao } from './luz.js'
 
 
 let lives=3;
-var velocidade= 0.25;
-var spawnRate= 60;
+let velocidade= 0.25;
+let spawnRate= 60;
 
 
 
