@@ -11,9 +11,6 @@ let lives=3;
 let velocidade= 0.25;
 let spawnRate= 60;
 
-
-
-
 let frames = 0;
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -216,8 +213,6 @@ scene.add(new THREE.AmbientLight(0xffffff, 0.5))
 camera.position.z = 5
 camera.position.y = 4
 camera.position.x = 0
-console.log(chao.top)
-console.log(chao.bottom)
 
 const keys = {
   a: {
@@ -435,11 +430,11 @@ function animate() {
 
   cube.gltfModel.rotateX(-0.1)
 
-  if (keys.a.pressed && cube.position.x >= -5.0) cube.velocity.x = -0.07
-  else if (keys.d.pressed && cube.position.x <= 5.0) cube.velocity.x = 0.07
+  if (keys.a.pressed && cube.position.x >= -5.0) cube.velocity.x = -0.2
+  else if (keys.d.pressed && cube.position.x <= 5.0) cube.velocity.x = 0.2
 
-  if (keys.s.pressed) cube.velocity.z = 0.1
-  else if (keys.w.pressed) cube.velocity.z = -0.1
+  if (keys.s.pressed && cube.position.z <= 1.5) cube.velocity.z = 0.15
+  else if (keys.w.pressed && cube.position.z >= -6.5) cube.velocity.z = -0.15
 
   cube.update(chao)
   enemies.forEach((enemy) => {
